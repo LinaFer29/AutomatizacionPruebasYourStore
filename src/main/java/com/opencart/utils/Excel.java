@@ -17,20 +17,31 @@ public class Excel {
         this.filePath = filePath;
     }
 
+    // Formato de Data: [{...}, {...}, {...}]
     public List<String[]> readData() {
-        List<String[]> data = new ArrayList<>(); // Formato de Data: [{"category", "subcategory", "product"}, {...}, {...}]
+        List<String[]> data = new ArrayList<>(); // Lista para almacenar los datos
         try (FileInputStream fis = new FileInputStream(filePath);
              XSSFWorkbook workbook = new XSSFWorkbook(fis)) {
 
-            XSSFSheet sheet = workbook.getSheetAt(0);
+            XSSFSheet sheet = workbook.getSheetAt(0); // Leer la primera hoja
             DataFormatter formatter = new DataFormatter();
 
-            // Comienza desde la segunda fila (índice 1)
+            // Iterar sobre las filas, comenzando desde la segunda fila (índice 1)
             for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-                String category = formatter.formatCellValue(sheet.getRow(i).getCell(0));
-                String Subcategory = formatter.formatCellValue(sheet.getRow(i).getCell(1));
-                String product = formatter.formatCellValue(sheet.getRow(i).getCell(2));
-                data.add(new String[]{category, Subcategory, product});
+                Row row = sheet.getRow(i);
+                if (row == null) continue; // Saltar filas vacías
+
+                // Crear un arreglo dinámico para almacenar los valores de las columnas
+                String[] rowData = new String[row.getLastCellNum()];
+
+                // Iterar sobre las celdas de la fila
+                for (int j = 0; j < row.getLastCellNum(); j++) {
+                    Cell cell = row.getCell(j);
+                    rowData[j] = formatter.formatCellValue(cell); // Obtener el valor de la celda como String
+                }
+
+                // Agregar la fila a la lista de datos
+                data.add(rowData);
             }
         } catch (IOException e) {
             e.printStackTrace();

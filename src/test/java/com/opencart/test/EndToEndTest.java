@@ -5,7 +5,6 @@ import com.opencart.pages.HomePage;
 import com.opencart.pages.ProductDetailsPage;
 import com.opencart.utils.Constants;
 import com.opencart.utils.Excel;
-import com.opencart.utils.Verify;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +13,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SelectProductTest extends BaseTest{
+public class EndToEndTest extends BaseTest{
 
     @Test
     public void selectProduct() throws InterruptedException {
@@ -23,7 +22,7 @@ public class SelectProductTest extends BaseTest{
         CategoryPage categoryPage = new CategoryPage(driver);
 
         //Excels
-        Excel excel = new Excel(Constants.FILE_PATH_EXCEL);
+        Excel excel = new Excel(Constants.FILE_PATH_EXCEL_PRODUCTS);
         Excel resultsExcel = new Excel(Constants.OUTPUT_FILE_PATH_EXCEL);
 
         //Paso 1: Abrir pagina web, Navegar
