@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CartPage {
-    private WebDriver driver;
+    private final WebDriver driver;
 
     public CartPage(WebDriver driver) {
         this.driver = driver;
