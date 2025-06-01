@@ -3,6 +3,7 @@ package com.opencart.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class UserRegistrationPage extends BasePage {
 
@@ -31,7 +32,8 @@ public class UserRegistrationPage extends BasePage {
     }
 
     public void selectButton (String value){
-        driver.findElement(submitInput(value)).click();
+        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(submitInput(value)));
+        button.click();
     }
 
 
