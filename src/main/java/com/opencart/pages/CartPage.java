@@ -7,12 +7,9 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartPage {
-    private final WebDriver driver;
+public class CartPage extends BasePage{
 
-    public CartPage(WebDriver driver) {
-        this.driver = driver;
-    }
+    public CartPage(WebDriver driver){super(driver);}
 
     public List<String> getProductNamesInCart() {
         List<String> names = new ArrayList<>();
@@ -22,6 +19,5 @@ public class CartPage {
             names.add(productName);
         }
         return names;
-
     }
 }

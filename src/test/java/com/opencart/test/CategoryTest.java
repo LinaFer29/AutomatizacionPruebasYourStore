@@ -2,18 +2,19 @@ package com.opencart.test;
 
 import com.opencart.pages.BasePage;
 import com.opencart.pages.CategoryPage;
+import com.opencart.pages.HomePage;
 import com.opencart.utils.Constants;
 import com.opencart.utils.Excel;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryTest extends BaseTest{
 
     @Test
     public void Category(){
-        BasePage basePage = new BasePage(driver);
+
+        HomePage basePage = new HomePage(driver);
         CategoryPage categorypage = new CategoryPage(driver);
         Excel excelProducts = new Excel(Constants.FILE_PATH_EXCEL_PRODUCTS);
 
@@ -26,7 +27,7 @@ public class CategoryTest extends BaseTest{
         //2.1 verificar que no este vacio el Excel
         if (!products.isEmpty()) {
             // Obtener el primer elemento (primera fila de datos)
-            String[] firstRow = products.get(0);
+            String[] firstRow = products.getFirst();
 
             // Imprimir los datos del primer elemento
             System.out.println("Datos del primer elemento:");
