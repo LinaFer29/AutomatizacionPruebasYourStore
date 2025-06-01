@@ -22,5 +22,6 @@ public class CartPage {
             names.add(productName);
         }
         return names;
+
     }
 }
