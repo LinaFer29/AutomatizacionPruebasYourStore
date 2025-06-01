@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.Beta;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import com.opencart.utils.Constants;
 
 import java.time.Duration;
 
@@ -21,6 +22,7 @@ public class BaseTest {
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
+        driver.get(Constants.BASE_URL);
     }
 
     @AfterEach

@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.time.Instant;
+
 public class CategoryPage extends BasePage {
 
     //constructor
@@ -42,6 +44,7 @@ public class CategoryPage extends BasePage {
 
     //Acciones
     public void selectProductByName (String productName){
+
         wait.until(ExpectedConditions.visibilityOfElementLocated(product(productName)));
         driver.findElement(product(productName)).click();
     }
