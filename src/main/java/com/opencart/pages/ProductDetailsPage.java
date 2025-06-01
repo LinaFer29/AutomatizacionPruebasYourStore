@@ -10,12 +10,14 @@ public class ProductDetailsPage extends BasePage {
 
     //Elementos
     private By quantityInput (String quantityInput){
+
         return By.xpath("//div[@class=\"form-group\"]//input[@id=\""+ quantityInput +"\"]");
     }
 
     private By addToCartBtn (String button){
         return By.xpath("//div[@class=\"form-group\"]//button[@id=\""+ button +"\"]");
     }
+
 
     //Acciones
     public void setQuantity(int quantity, String input){
@@ -27,6 +29,5 @@ public class ProductDetailsPage extends BasePage {
     public void selectAddToCartBtn (String button){
         driver.findElement(addToCartBtn(button)).click();
     }
-
 
 }
