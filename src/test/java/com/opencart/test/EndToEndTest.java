@@ -18,6 +18,7 @@ public class EndToEndTest extends BaseTest{
         // Páginas
         HomePage homePage = new HomePage(driver);
         UserRegistrationPage registrationPage = new UserRegistrationPage(driver);
+        UserLoginPage loginPage = new UserLoginPage(driver);
         SuccessMessagePage successMessagePage = new SuccessMessagePage(driver);
         Excel excelUsers = new Excel(Constants.FILE_PATH_EXCEL_USERS);
         Excel excelProducts = new Excel(Constants.FILE_PATH_EXCEL_PRODUCTS);
@@ -43,7 +44,26 @@ public class EndToEndTest extends BaseTest{
 
         //Paso 2: Inicio de Sesión
 
+        String[] validUser = loginPage.searchValidUser(excelUsers.readData());
 
+        // Verificar que se encontró un usuario válido
+        Assertions.assertNotNull(validUser, "No se encontró un usuario válido en el Excel");
+
+        String email = validUser[2];     // Columna C: email
+        String password = validUser[4]; // Columna E: password
+
+        // Navegar al login
+        homePage.selectMenuOption("My Account");
+        homePage.selectSubOption("Login");
+
+        // Assert - verificar navegación a página de login
+        Assertions.assertEquals("Account Login", loginPage.getTitle(), "No se navegó a la página de login.");
+
+        // Realizar login
+        loginPage.login(email, password);
+
+        // Verificar login exitoso
+        Assertions.assertTrue(loginPage.isLoginSuccessful(), "El login no fue exitoso");
 
         // Paso 3: Búsqueda y agregado al carrito
         CategoryPage categoryPage = new CategoryPage(driver);
@@ -77,7 +97,10 @@ public class EndToEndTest extends BaseTest{
         // Escribir los productos exitosos en un nuevo archivo Excel
         excelOutput.writeData(successfulProducts);
 
-        //homePage.selectMenuOption("My Account");
-        //homePage.selectSubOption("Logout");
+        homePage.selectMenuOption("My Account");
+        homePage.selectSubOption("Logout");
+
+        // Verificar que el logout fue exitoso verificando el título de la página
+        Assertions.assertEquals("Account Logout", homePage.getTitle(), "El logout no fue exitoso");
     }
 }
