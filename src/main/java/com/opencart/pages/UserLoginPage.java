@@ -24,9 +24,9 @@ public class UserLoginPage extends BasePage {
         return By.xpath("//input[@value='Login']");
     }
 
-   /* private By accountDashboard() {
+    private By accountDashboard() {
         return By.xpath("//div[@id='content']//h2[text()='My Account']");
-    }*/
+    }
 
     public void login(String email, String password) {
         // Esperar a que la página de login esté completamente cargada
@@ -47,10 +47,14 @@ public class UserLoginPage extends BasePage {
         loginBtn.click();
     }
 
-   /* public boolean isLoginSuccessful() {
-        WebElement dashboard = wait.until(ExpectedConditions.visibilityOfElementLocated(accountDashboard()));
-        return dashboard.isDisplayed();
-    }*/
+    public boolean isLoginSuccessful() {
+        try {
+            WebElement dashboard = wait.until(ExpectedConditions.visibilityOfElementLocated(accountDashboard()));
+            return dashboard.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     public String getErrorMessage() {
         try {

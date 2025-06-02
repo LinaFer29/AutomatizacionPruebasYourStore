@@ -1,40 +1,89 @@
 package com.opencart.test;
 
+import com.opencart.pages.HomePage;
+import com.opencart.pages.UserLoginPage;
+import com.opencart.utils.Constants;
+import com.opencart.utils.Excel;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+import java.util.List;
 
 public class UserLoginTest extends BaseTest {
 
     @Test
-    public void testNavigationToLogin() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    public void loginUser() {
+        // Pages
+        HomePage homePage = new HomePage(driver);
+        UserLoginPage loginPage = new UserLoginPage(driver);
 
-        try {
+        // Excel
+        Excel excelUsers = new Excel(Constants.FILE_PATH_EXCEL_USERS);
 
-            WebElement myAccountButton = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//nav[@id='top']//div[@id='top-links']//li[@class='dropdown']//a[@title='My Account']")));
-            myAccountButton.click();
+        // Navegar a la página principal
+        homePage.navigateTo(Constants.BASE_URL);
 
-            WebElement dropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//ul[@class='dropdown-menu dropdown-menu-right']")));
+        // Leer datos del Excel
+        List<String[]> users = excelUsers.readData();
 
-
-            WebElement loginOption = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//ul[@class='dropdown-menu dropdown-menu-right']//a[text()='Login']")));
-
-            loginOption.click();
-
-            //Verificar navegación a la página de login
-            wait.until(ExpectedConditions.titleContains("Login"));
-
-        } catch (Exception e) {
-            System.err.println("eror en test de navegación: " + e.getMessage());
+        // Buscar un usuario válido (que tenga "true" en la columna correspondiente)
+        String[] validUser = null;
+        for (String[] user : users) {
+            // Asumiendo que la columna 7 (índice 7) indica si el usuario es válido para login
+            if (user.length > 7 && user[7].equalsIgnoreCase("true")) {
+                validUser = user;
+                break;
+            }
         }
+
+        // Verificar que se encontró un usuario válido
+        Assertions.assertNotNull(validUser, "No se encontró un usuario válido en el Excel");
+
+        String email = validUser[2];     // Columna C: email
+        String password = validUser[4];  // Columna E: password
+
+        // Navegar al login
+        homePage.selectMenuOption("My Account");
+        homePage.selectSubOption("Login");
+
+        // Assert - verificar navegación a página de login
+        Assertions.assertEquals("Account Login", loginPage.getTitle(), "No se navegó a la página de login.");
+
+        // Realizar login
+        loginPage.login(email, password);
+
+        // Verificar login exitoso
+        Assertions.assertTrue(loginPage.isLoginSuccessful(), "El login no fue exitoso");
+
+        // Hacer logout después del login exitoso (siguiendo el patrón del test de registro)
+        homePage.selectMenuOption("My Account");
+        homePage.selectSubOption("Logout");
+
+        // Verificar que el logout fue exitoso verificando el título de la página
+        Assertions.assertEquals("Account Logout", homePage.getTitle(), "El logout no fue exitoso");
+    }
+
+    @Test
+    public void loginWithInvalidCredentials() {
+        // Pages
+        HomePage homePage = new HomePage(driver);
+        UserLoginPage loginPage = new UserLoginPage(driver);
+
+        // Navegar a la página principal
+        homePage.navigateTo(Constants.BASE_URL);
+
+        // Navegar al login
+        homePage.selectMenuOption("My Account");
+        homePage.selectSubOption("Login");
+
+        // Assert - verificar navegación a página de login
+        Assertions.assertEquals("Account Login", loginPage.getTitle(), "No se navegó a la página de login.");
+
+        // Intentar login con credenciales inválidas
+        loginPage.login("invalid@email.com", "wrongpassword");
+
+        // Verificar que aparece mensaje de error
+        String errorMessage = loginPage.getErrorMessage();
+        Assertions.assertTrue(errorMessage.contains("Warning"), "No se mostró mensaje de error para credenciales inválidas");
     }
 }
