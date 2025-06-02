@@ -8,6 +8,7 @@ import com.opencart.pages.CartPage;
 import com.opencart.utils.Constants;
 import com.opencart.utils.Excel;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class CartValidationTest extends BaseTest {
         HomePage page = new HomePage(driver);
         CartPage cart = new CartPage(driver);
         CategoryPage categoryPage = new CategoryPage(driver);
+        //SearchAndAddToCartTest searchAndAddToCartTest = new SearchAndAddToCartTest(driver);
 
         // Leer productos del Excel
         Excel excelOutput = new Excel(Constants.OUTPUT_FILE_PATH_EXCEL);
@@ -36,19 +38,8 @@ public class CartValidationTest extends BaseTest {
         // Abrir la página principal
         page.navigateTo(Constants.BASE_URL);
 
-        // Agregar productos al carrito
-        for (String[] rowData : rawData) {
-            if (rowData.length >= 3) {
-                String category = rowData[0]; // Columna A: categoría
-                String subCategory = rowData[1]; // Columna B: subcategoría
-                String product = rowData[2]; // Columna C: producto
-
-                // Agregar el producto al carrito
-                categoryPage.selectProductsCategory(category, subCategory, product);
-            } else {
-                System.out.println("Fila con datos insuficientes. Saltando...");
-            }
-        }
+        // Agregar productos al carrito para prueba individual
+        categoryPage.addProductsToCart(rawData);
 
         // Navegar a la pagina del carrito
         page.selectMenuOption("Shopping Cart");

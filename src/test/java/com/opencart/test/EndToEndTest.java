@@ -1,87 +1,83 @@
 package com.opencart.test;
-
 import com.opencart.pages.*;
 import com.opencart.utils.Constants;
 import com.opencart.utils.Excel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class EndToEndTest extends BaseTest{
 
     @Test
-    public void selectProduct() throws InterruptedException {
-        //Pages
+    public void testEndToEndFlow() {
+        // Páginas
         HomePage homePage = new HomePage(driver);
         UserRegistrationPage registrationPage = new UserRegistrationPage(driver);
-        UserLoginPage loginPage = new UserLoginPage(driver);
-        CategoryPage categoryPage = new CategoryPage(driver);
-        CartPage cartPage = new CartPage(driver);
-
-        //Excels
+        SuccessMessagePage successMessagePage = new SuccessMessagePage(driver);
         Excel excelUsers = new Excel(Constants.FILE_PATH_EXCEL_USERS);
         Excel excelProducts = new Excel(Constants.FILE_PATH_EXCEL_PRODUCTS);
-        Excel resultsExcel = new Excel(Constants.OUTPUT_FILE_PATH_EXCEL);
+        Excel excelOutput = new Excel(Constants.OUTPUT_FILE_PATH_EXCEL);
 
-        //Paso 1: Abrir pagina web, Navegar
-        homePage.navigateTo(Constants.BASE_URL);
-
-
-
-        //Muestra de Lectura de datos del Excel
-        // Formato de Data: [{"product name", "model", "quantity", "unit price", "total"}, {...}, {...}]
-        List<String[]> data = excelProducts.readData();
-        data.forEach(dataProd -> {
-                    String category = dataProd[0];
-                    String subCategory = dataProd[1];
-                    String product = dataProd[2];
-                    System.out.println("Categoria:" + category + ", Subcategoria: " + subCategory + ", Product: " + product);
-        });
-
-        //Muestra de Escritura de datos en el Excel Output
-        // Formato de Data: [{"product name", "model", "quantity", "unit price", "total"}, {...}, {...}]
-        List<String[]> newData = new ArrayList<>();
-        newData.add(new String[]{"Iphone", "product 11", "1","123,20", "123,20"});
-        resultsExcel.writeData(newData);
-
-
-        //Paso 2: Seleccionar categoria y subcategoria
-        // Acciones
-        homePage.selectCategory("Desktops");
-        homePage.selectSubCategory("Mac");
+        // Paso 1: Registro de usuario
+        homePage.selectMenuOption("My Account");
+        homePage.selectSubOption("Register");
+        String[] dataUser = registrationPage.getDataUserFromExcel(excelUsers);
 
         //Assert
-        Assertions.assertEquals(homePage.getTitle(),"Mac");
+        Assertions.assertEquals(registrationPage.getTitle(),"Register Account","No se navegó a la página de registro.");
 
-        //Verify
-        //Verify.verify(() -> assertThat(categoryPage.getTitle()).contains("AA"));
-        //Verify.verify(() -> assertThat(categoryPage.getTitle()).contains("CC"));
-        //Verify.verify(() -> assertThat(categoryPage.getTitle()).contains("i"));
-        //Verify.verify(() -> assertThat(categoryPage.getTitle()).contains("iMac"));
+        registrationPage.fillForm(dataUser);
 
-        //Verificación si se presento un error de los Verify
-        //Verify.verifyAll();
+        String expectedMessage = "Congratulations! Your new account has been successfully created!";
+        String actualMessage = successMessagePage.getSuccessMessage();
+
+        Assertions.assertEquals(expectedMessage,actualMessage, "El mensaje de éxito no es el esperado.");
+
+        homePage.selectMenuOption("My Account");
+        homePage.selectSubOption("Logout");
+
+        //Paso 2: Inicio de Sesión
 
 
-        //Espera absoluta (No utilizar)
-        //Thread.sleep(10000);
-        /* Esperas de Selenium
-            Espera Implicita, tiempo de espera para todos los elementos
-            Espera Explicita, espera hasta que se cumpla la condicion (visible, Clicleable, etc)
-            Fluent wait (Explicita Anvanzada), Tiempo de espera, frecuencia de revision, ignorar ciertas excepciones temporales
-         */
 
-        //Paso 3: Instanciar la CategoryPage y seleccionar producto
-        categoryPage.selectProductByName("iMac");
+        // Paso 3: Búsqueda y agregado al carrito
+        CategoryPage categoryPage = new CategoryPage(driver);
+        categoryPage.addProductsToCart(excelProducts.readData());
 
-        //Paso 4: Ingresar cantidad del producto
-        ProductDetailsPage productDetailsPage = new ProductDetailsPage(driver);
-        productDetailsPage.setQuantity(3,"input-quantity");
-        productDetailsPage.selectAddToCartBtn("button-cart");
+        // Paso 4: Validación del carrito
+        CartPage cartPage = new CartPage(driver);
+        //cartPage.validateProductsFromExcel(excelProducts.readData());
+        List<String[]> rawData = excelProducts.readData();
+        // Extraer solo la tercer columna (producto)
+        List<String> expectedProducts = rawData.stream()
+                .map(row -> row[2])// Columna C: producto
+                .toList();
+        // Navegar a la pagina del carrito
+        homePage.selectMenuOption("Shopping Cart");
 
+        // Assert
+        Assertions.assertEquals(cartPage.getTitle(),"Shopping Cart","No se navegó a la página de Carrito.");
+
+        // Obtener los productos actualmente en el carrito
+        List<String> cartProducts = cartPage.getProductNamesInCart();
+        // Lista para almacenar los productos exitosos
+        List<String[]> successfulProducts = new ArrayList<>();
+
+        // Verificar que los productos esperados estén en el carrito
+        for (String expected : expectedProducts) {
+            Assert.assertTrue(cartProducts.contains(expected), "El producto '" + expected + "' no se encontró en el carrito.");
+            successfulProducts.add(new String[]{expected});
+        }
+
+        // Escribir los productos exitosos en un nuevo archivo Excel
+        excelOutput.writeData(successfulProducts);
+
+        //homePage.selectMenuOption("My Account");
+        //homePage.selectSubOption("Logout");
     }
 }

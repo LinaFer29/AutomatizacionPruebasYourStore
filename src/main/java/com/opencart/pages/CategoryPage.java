@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.time.Instant;
+import java.util.List;
 
 public class CategoryPage extends BasePage {
 
@@ -61,6 +62,21 @@ public class CategoryPage extends BasePage {
         if(isProductDisplayed(product)){
             System.out.println("CategoryPage: " + product);
             driver.findElement(AddInput(product)).click();
+        }
+    }
+
+    public void addProductsToCart(List<String[]> rawData) {
+        for (String[] rowData : rawData) {
+            if (rowData.length >= 3) {
+                String category = rowData[0]; // Columna A: categoría
+                String subCategory = rowData[1]; // Columna B: subcategoría
+                String product = rowData[2]; // Columna C: producto
+
+                // Agregar el producto al carrito
+                selectProductsCategory(category, subCategory, product);
+            } else {
+                System.out.println("Fila con datos insuficientes. Saltando...");
+            }
         }
     }
 

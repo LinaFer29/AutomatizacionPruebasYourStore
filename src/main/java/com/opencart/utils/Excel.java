@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Excel {
-    private  String filePath;
+    private String filePath;
 
     public Excel(String filePath) {
         this.filePath = filePath;

@@ -5,6 +5,7 @@ import com.opencart.pages.CategoryPage;
 import com.opencart.pages.ProductDetailsPage;
 import com.opencart.utils.Constants;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebDriver;
 
 public class OpenURLTest extends BaseTest{
 

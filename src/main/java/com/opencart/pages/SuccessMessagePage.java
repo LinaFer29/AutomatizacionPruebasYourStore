@@ -18,4 +18,5 @@ public class SuccessMessagePage extends BasePage {
         WebElement messageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(successMessage()));
         return messageElement.getText();
     }
+
 }
