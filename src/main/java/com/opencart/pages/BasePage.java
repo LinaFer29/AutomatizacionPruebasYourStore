@@ -12,7 +12,7 @@ public class BasePage {
         //Tiempo para vairable de espera
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         //Espera implicita, Se Configura una sola vez y aplica para todos los elementos
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
     public void navigateTo(String url){

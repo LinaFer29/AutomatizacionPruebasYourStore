@@ -1,6 +1,5 @@
 package com.opencart.test;
 
-import com.opencart.pages.BasePage;
 import com.opencart.pages.CategoryPage;
 import com.opencart.pages.HomePage;
 import com.opencart.utils.Constants;
@@ -9,36 +8,22 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class CategoryTest extends BaseTest{
+public class SearchAndAddToCartTest extends BaseTest{
 
     @Test
-    public void Category(){
+    public void SearchProductAndAddToCart(){
 
         HomePage basePage = new HomePage(driver);
         CategoryPage categorypage = new CategoryPage(driver);
         Excel excelProducts = new Excel(Constants.FILE_PATH_EXCEL_PRODUCTS);
 
+        //Leer datos del Excel
         List<String[]> products = excelProducts.readData();
 
-        //1. Abrir la pagina
+        //Abrir la pagina
         basePage.navigateTo(Constants.BASE_URL);
 
-        //2.Leer datos del Excel
-        //2.1 verificar que no este vacio el Excel
-        if (!products.isEmpty()) {
-            // Obtener el primer elemento (primera fila de datos)
-            String[] firstRow = products.getFirst();
-
-            // Imprimir los datos del primer elemento
-            System.out.println("Datos del primer elemento:");
-            for (String value : firstRow) {
-                System.out.println(value);
-            }
-        } else {
-            System.out.println("No se encontraron datos en el archivo.");
-        }
-
-        //3.Test con los datos del Excel
+        //Test con los datos del Excel
         for (int i = 0; i < products.size(); i++) {
             String[] rowData = products.get(i);
             // Verificar que cada fila tenga al menos 3 columnas: categoria, subcategoria, producto

@@ -1,8 +1,6 @@
 package com.opencart.test;
 
-import com.opencart.pages.CategoryPage;
-import com.opencart.pages.HomePage;
-import com.opencart.pages.ProductDetailsPage;
+import com.opencart.pages.*;
 import com.opencart.utils.Constants;
 import com.opencart.utils.Excel;
 import org.junit.jupiter.api.Assertions;
@@ -19,18 +17,24 @@ public class EndToEndTest extends BaseTest{
     public void selectProduct() throws InterruptedException {
         //Pages
         HomePage homePage = new HomePage(driver);
+        UserRegistrationPage registrationPage = new UserRegistrationPage(driver);
+        UserLoginPage loginPage = new UserLoginPage(driver);
         CategoryPage categoryPage = new CategoryPage(driver);
+        CartPage cartPage = new CartPage(driver);
 
         //Excels
-        Excel excel = new Excel(Constants.FILE_PATH_EXCEL_PRODUCTS);
+        Excel excelUsers = new Excel(Constants.FILE_PATH_EXCEL_USERS);
+        Excel excelProducts = new Excel(Constants.FILE_PATH_EXCEL_PRODUCTS);
         Excel resultsExcel = new Excel(Constants.OUTPUT_FILE_PATH_EXCEL);
 
         //Paso 1: Abrir pagina web, Navegar
         homePage.navigateTo(Constants.BASE_URL);
 
+
+
         //Muestra de Lectura de datos del Excel
         // Formato de Data: [{"product name", "model", "quantity", "unit price", "total"}, {...}, {...}]
-        List<String[]> data = excel.readData();
+        List<String[]> data = excelProducts.readData();
         data.forEach(dataProd -> {
                     String category = dataProd[0];
                     String subCategory = dataProd[1];

@@ -38,7 +38,7 @@ public class UserRegistrationTest extends BaseTest {
         // Verificar que la lista no esté vacía
         if (!users.isEmpty()) {
             // Obtener el primer elemento (primera fila de datos)
-            String[] firstRow = users.get(3);
+            String[] firstRow = users.get(4);
 
             firstName = firstRow[0];
             lastName = firstRow[1];

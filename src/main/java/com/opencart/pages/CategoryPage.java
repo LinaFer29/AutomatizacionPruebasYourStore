@@ -28,8 +28,8 @@ public class CategoryPage extends BasePage {
     }
 
     //Elemento para agregar el producto al carrito
-    private By AddInput(){
-        return By.xpath("//button[.//span[normalize-space()='Add to Cart']]");
+    private By AddInput(String productName){
+        return By.xpath("//div[@class=\"product-thumb\" and .//a[text()=\""+ productName +"\"]]//button[.//span[normalize-space()='Add to Cart']]");
     }
 
     //Metodo para verificar que si existe el producto a buscar
@@ -59,7 +59,8 @@ public class CategoryPage extends BasePage {
             driver.findElement(SubCategory(subCategory)).click();
         }
         if(isProductDisplayed(product)){
-            driver.findElement(AddInput()).click();
+            System.out.println("CategoryPage: " + product);
+            driver.findElement(AddInput(product)).click();
         }
     }
 

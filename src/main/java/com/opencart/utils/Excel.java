@@ -50,28 +50,13 @@ public class Excel {
     }
 
     public void writeData (List<String[]> data){ // Formato de Data: [{"product name", "model", "quantity", "unit price", "total"}, {...}, {...}]
-        XSSFWorkbook workbook;
-        XSSFSheet sheet;
-
-        // Verificar si el archivo ya existe
-        File file = new File(filePath);
-        if (file.exists()) {
-            try (FileInputStream fis = new FileInputStream(file)) {
-                workbook = new XSSFWorkbook(fis);
-                sheet = workbook.getSheetAt(0); // Escribir en la primera hoja
-            } catch (IOException e) {
-                e.printStackTrace();
-                return;
-            }
-        } else {
-            // Crear un nuevo archivo si no existe
-            workbook = new XSSFWorkbook();
-            sheet = workbook.createSheet("Sheet1");
-        }
+        // Crear un nuevo libro de Excel
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("ProductsInCart");
 
         // Escribir los datos en el archivo Excel
         // Formato de Data: [{"product name", "model", "quantity", "unit price", "total"}, {...}, {...}]
-        int rowNum = sheet.getLastRowNum() + 1; // Comenzar después de la última fila existente
+        int rowNum = 0; // Comenzar desde la primera fila
         for (String[] rowData : data) {
             Row row = sheet.createRow(rowNum++);
             for (int i = 0; i < rowData.length; i++) {
@@ -80,7 +65,7 @@ public class Excel {
             }
         }
 
-        // Guardar los cambios en el archivo
+        // Guardar los cambios en el archivo (sobreescribir si ya existe)
         try (FileOutputStream fos = new FileOutputStream(filePath)) {
             workbook.write(fos);
             System.out.println("Datos escritos exitosamente en el archivo Excel.");
