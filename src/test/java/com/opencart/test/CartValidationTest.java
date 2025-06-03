@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 import com.opencart.pages.CartPage;
 import com.opencart.utils.Constants;
 import com.opencart.utils.Excel;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 import java.util.ArrayList;
@@ -22,7 +20,6 @@ public class CartValidationTest extends BaseTest {
         HomePage page = new HomePage(driver);
         CartPage cart = new CartPage(driver);
         CategoryPage categoryPage = new CategoryPage(driver);
-        //SearchAndAddToCartTest searchAndAddToCartTest = new SearchAndAddToCartTest(driver);
 
         // Leer productos del Excel
         Excel excelOutput = new Excel(Constants.OUTPUT_FILE_PATH_EXCEL);

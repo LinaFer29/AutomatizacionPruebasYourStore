@@ -13,10 +13,6 @@ import java.util.List;
 
 public class UserRegistrationTest extends BaseTest {
 
-//    public UserRegistrationTest(WebDriver driver) {
-//        super(driver);
-//    }
-
     @Test
     public void registerUser () {
 

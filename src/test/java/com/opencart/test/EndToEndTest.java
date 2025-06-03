@@ -4,7 +4,6 @@ import com.opencart.utils.Constants;
 import com.opencart.utils.Excel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 import java.util.ArrayList;
@@ -15,11 +14,13 @@ public class EndToEndTest extends BaseTest{
 
     @Test
     public void testEndToEndFlow() {
+
         // Páginas
         HomePage homePage = new HomePage(driver);
         UserRegistrationPage registrationPage = new UserRegistrationPage(driver);
         UserLoginPage loginPage = new UserLoginPage(driver);
         SuccessMessagePage successMessagePage = new SuccessMessagePage(driver);
+
         Excel excelUsers = new Excel(Constants.FILE_PATH_EXCEL_USERS);
         Excel excelProducts = new Excel(Constants.FILE_PATH_EXCEL_PRODUCTS);
         Excel excelOutput = new Excel(Constants.OUTPUT_FILE_PATH_EXCEL);
