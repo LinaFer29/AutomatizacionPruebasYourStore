@@ -8,11 +8,11 @@ El proyecto está diseñado para ser modular, escalable y fácil de mantener, si
 ---
 
 ## Integrantes del Proyecto
-- **[Lina María Fernández García]**
-- **[Joan Sebastian Tunubala Sánchez]**
-- **[Gissel Vanessa Quitian]**
-- **[Juan José Pizo Camacho]**
-- **[Luis Edwar Mosquera Congo]**
+- **Lina María Fernández García**
+- **Joan Sebastian Tunubala Sánchez**
+- **Gissel Vanessa Quitian**
+- **Juan José Pizo Camacho**
+- **Luis Edwar Mosquera Congo**
 
 ---
 
@@ -25,9 +25,9 @@ El proyecto está diseñado para ser modular, escalable y fácil de mantener, si
    - Lectura de combinaciones de email y contraseña previamente registrados desde el Excel.
    - Validación del flujo de inicio de sesión exitoso y con credenciales invalidas.
      
-3.  **Búsqueda y Agregado de Productos al Carrito**:
-   - Selección de categorías y subcategorías.
-   -  Agregado de múltiples productos al carrito desde un archivo Excel.
+3. **Búsqueda y Agregado de Productos al Carrito**:
+   - Selección de categorías y subcategorías. 
+   - Agregado de múltiples productos al carrito desde un archivo Excel.
 
 4. **Validación de Productos en el Carrito**:
    - Comparación de los productos agregados con los datos del archivo Excel.
