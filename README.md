@@ -25,7 +25,7 @@ El proyecto está diseñado para ser modular, escalable y fácil de mantener, si
    - Lectura de combinaciones de email y contraseña previamente registrados desde el Excel.
    - Validación del flujo de inicio de sesión exitoso y con credenciales invalidas.
      
-4.  **Búsqueda y Agregado de Productos al Carrito**:
+3.  **Búsqueda y Agregado de Productos al Carrito**:
    - Selección de categorías y subcategorías.
    - Agregado de múltiples productos al carrito desde un archivo Excel.
 
