@@ -27,7 +27,7 @@ El proyecto está diseñado para ser modular, escalable y fácil de mantener, si
      
 3.  **Búsqueda y Agregado de Productos al Carrito**:
    - Selección de categorías y subcategorías.
-   - Agregado de múltiples productos al carrito desde un archivo Excel.
+   -  Agregado de múltiples productos al carrito desde un archivo Excel.
 
 4. **Validación de Productos en el Carrito**:
    - Comparación de los productos agregados con los datos del archivo Excel.
