@@ -47,7 +47,8 @@ public class UserRegistrationPage extends BasePage {
         // Verificar que la lista no esté vacía
         if (!users.isEmpty()) {
             // Obtener el elemento (fila # de datos)
-            dataUser = users.get(Constants.INDEX_USER);
+
+            dataUser = excelUsers.searchValidUser(users,"false");
         } else {
             System.out.println("No se encontraron datos en el archivo.");
         }
