@@ -65,16 +65,4 @@ public class UserLoginPage extends BasePage {
             return "No se encontró mensaje de error";
         }
     }
-
-    public String[] searchValidUser (List<String[]> users) {
-        String[] validUser = null;
-        for (String[] user : users) {
-            // Asumiendo que la columna 7 (índice 7) indica si el usuario es válido para login
-            if (user.length > 7 && user[7].equalsIgnoreCase("true")) {
-                validUser = user;
-                break;
-            }
-        }
-        return validUser;
-    }
 }

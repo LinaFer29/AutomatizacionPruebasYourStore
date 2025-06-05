@@ -45,7 +45,7 @@ public class EndToEndTest extends BaseTest{
 
         //Paso 2: Inicio de Sesión
 
-        String[] validUser = loginPage.searchValidUser(excelUsers.readData());
+        String[] validUser = excelProducts.searchValidUser(excelUsers.readData(),"true");
 
         // Verificar que se encontró un usuario válido
         Assertions.assertNotNull(validUser, "No se encontró un usuario válido en el Excel");
