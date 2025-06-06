@@ -83,7 +83,7 @@ public class Excel {
     public String[] searchValidUser (List<String[]> users,String flag) {
         String[] validUser = null;
         for (String[] user : users) {
-            // Asumiendo que la columna 7 (índice 7) indica si el usuario es válido para login
+            // Asumiendo que la columna 7 (índice 7) indica si el usuario es válido
             if (user.length > 7 && user[7].equalsIgnoreCase(flag)) {
                 validUser = user;
                 break;
