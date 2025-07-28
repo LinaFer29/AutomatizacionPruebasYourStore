@@ -27,7 +27,6 @@ public class UserLoginTest extends BaseTest {
         List<String[]> users = excelUsers.readData();
 
         // Buscar un usuario válido (que tenga "true" en la columna correspondiente)
-       // String[] validUser = loginPage.searchValidUser(users);
         String[] validUser = excelUsers.searchValidUser(users,"true");
 
         // Verificar que se encontró un usuario válido

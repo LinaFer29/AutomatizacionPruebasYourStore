@@ -5,5 +5,4 @@ public class Constants {
     public static final String FILE_PATH_EXCEL_USERS = "src/main/resources/inputData.xlsx";
     public static final String FILE_PATH_EXCEL_PRODUCTS =  "src/main/resources/productsData.xlsx";
     public  static final String OUTPUT_FILE_PATH_EXCEL = "src/main/resources/outputData.xlsx";
-    public static  final int INDEX_USER = 11;
 }
